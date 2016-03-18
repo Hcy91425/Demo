@@ -30,4 +30,9 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)dealloc
+{
+    NSLog(@"de");
+}
+
 @end

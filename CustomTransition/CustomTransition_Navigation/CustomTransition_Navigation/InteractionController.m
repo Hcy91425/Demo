@@ -9,7 +9,7 @@
 #import "InteractionController.h"
 
 @interface InteractionController ()
-@property (nonatomic, strong)UIViewController *presentedVC;
+@property (nonatomic, weak)UIViewController *presentedVC;
 @property (nonatomic, assign)BOOL shouldComplete;
 @end
 

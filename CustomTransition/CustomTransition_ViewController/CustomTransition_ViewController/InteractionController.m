@@ -9,11 +9,12 @@
 #import "InteractionController.h"
 
 @interface InteractionController ()
-@property (nonatomic, strong)UIViewController *presentedVC;
+@property (nonatomic, weak)UIViewController *presentedVC;
 @property (nonatomic, assign)BOOL shouldComplete;
 @end
 
 @implementation InteractionController
+// 给 viewController 的 view 添加手势
 - (void)prepareForViewController:(UIViewController *)viewController {
     _presentedVC = viewController;
     UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureAction:)];
@@ -37,7 +38,7 @@
             // 更新转场的进度 传入的参数值要在 0.0~1.0 之间
             [self updateInteractiveTransition:percent];
             // 如果滑动超过 30% 就视为转场完成
-            _shouldComplete = (percent > 0.5);
+            _shouldComplete = (percent > 0.3);
             break;
         case UIGestureRecognizerStateCancelled:
             _interacting = NO;

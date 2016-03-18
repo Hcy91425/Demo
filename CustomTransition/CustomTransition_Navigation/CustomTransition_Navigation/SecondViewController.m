@@ -20,5 +20,4 @@
     self.title = @"Second View Controller";
 }
 
-
 @end
