@@ -1,0 +1,43 @@
+//
+//  TranstionAnimator.m
+//  CustomTransition_ViewController
+//
+//  Created by Cyrus😶 on 16/3/18.
+//  Copyright © 2016年 Cyrus. All rights reserved.
+//
+
+#import "PopAnimationController.h"
+
+@implementation PopAnimationController
+// 转场的时间
+- (NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext {
+    return 0.8;
+}
+
+// 转场动画实现
+- (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
+    // 通过 key 取到 fromVC 和 toVC
+    UIViewController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    UIViewController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    
+    // 把 toVC 加入到 containerView
+    UIView *containerView = [transitionContext containerView];
+    [containerView addSubview:toVC.view];
+    [containerView sendSubviewToBack:toVC.view];
+    
+    // 一些动画要用的的数据
+    CGRect finalFrame = [transitionContext finalFrameForViewController:toVC];
+    NSTimeInterval duration = [self transitionDuration:transitionContext];
+    
+    // 动画过程
+    [UIView animateWithDuration:duration
+                     animations:^{
+                         fromVC.view.frame = CGRectOffset(finalFrame, 0, -finalFrame.size.height);
+                     }
+                     completion:^(BOOL finished) {
+                         // dismiss 动画添加了手势后可能出现转场取消的状态，所以要根据状态来判定是否完成转场
+                         BOOL isComplete = ![transitionContext transitionWasCancelled];
+                         [transitionContext completeTransition:isComplete];
+                     }];
+}
+@end
